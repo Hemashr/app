@@ -725,57 +725,6 @@ export default function Portfolio() {
                 Use the “Blog” tab above to search, edit and publish posts.
               </div>
             </SectionCard>
-
-            <SectionCard
-              id="contact"
-              eyebrow="Contact"
-              title="Let’s talk"
-              description="Send a message (saved locally for now). In the backend step, we can email you or store messages in MongoDB."
-            >
-              <form onSubmit={submitContact} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm">Your name</label>
-                  <Input
-                    value={contact.name}
-                    onChange={(e) => setContact((c) => ({ ...c, name: e.target.value }))}
-                    placeholder="Your name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm">Your email</label>
-                  <Input
-                    type="email"
-                    value={contact.email}
-                    onChange={(e) => setContact((c) => ({ ...c, email: e.target.value }))}
-                    placeholder="you@example.com"
-                  />
-                </div>
-                <div className="space-y-2 md:col-span-2">
-                  <label className="text-sm">Message</label>
-                  <Textarea
-                    rows={6}
-                    value={contact.message}
-                    onChange={(e) =>
-                      setContact((c) => ({ ...c, message: e.target.value }))
-                    }
-                    placeholder="Tell me about the role, team, and what you’re building..."
-                  />
-                </div>
-                <div className="md:col-span-2 flex flex-col sm:flex-row gap-2 sm:justify-between sm:items-center">
-                  <div className="text-xs text-muted-foreground">
-                    Saved messages: {state.contactMessages.length}
-                  </div>
-                  <div className="flex gap-2">
-                    <Button type="button" variant="outline" onClick={() => scrollTo("about")}>
-                      Back to top
-                    </Button>
-                    <Button type="submit" className="rounded-full">
-                      Send
-                    </Button>
-                  </div>
-                </div>
-              </form>
-            </SectionCard>
           </TabsContent>
 
           <TabsContent value="blog" className="mt-8 space-y-6">
