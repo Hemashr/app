@@ -85,7 +85,7 @@ if (enableVisualEdits && babelMetadataPlugin) {
 
 webpackConfig.devServer = (devServerConfig) => {
   // Apply visual edits dev server setup only if enabled
-  if (config.enableVisualEdits && setupDevServer) {
+  if (enableVisualEdits && setupDevServer) {
     devServerConfig = setupDevServer(devServerConfig);
   }
 
