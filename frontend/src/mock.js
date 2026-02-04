@@ -238,7 +238,7 @@ const seedBlogPosts = [
     excerpt:
       "A practical checklist I use when building ASP.NET Core APIs: validation, error shape, and maintainability.",
     content:
-      "This is a starter post (placeholder). Replace with your real writing.\n\nOutline:\n- Model validation\n- Consistent error payloads\n- DI and testability\n- Logging and correlation IDs\n",
+      "Outline:\n- Model validation\n- Consistent error payloads\n- DI and testability\n- Logging and correlation IDs\n",
   },
   {
     id: "post_ci-cd",
@@ -248,7 +248,7 @@ const seedBlogPosts = [
     excerpt:
       "What I learned while automating deployments: small steps, repeatability, and clear rollback paths.",
     content:
-      "This is a starter post (placeholder). Add screenshots or code snippets later.\n\nKey ideas:\n- Build once, deploy many\n- Environment config discipline\n- Smoke tests\n",
+      "Add screenshots or code snippets later.\n\nKey ideas:\n- Build once, deploy many\n- Environment config discipline\n- Smoke tests\n",
   },
 ];
 
