@@ -9,4 +9,8 @@ public class AppDbContext : DbContext
         : base(options) { }
 
     public DbSet<StatusCheck> StatusChecks { get; set; }
+    public DbSet<Blog> Blogs => Set<Blog>();
+    public DbSet<Testimonial> Testimonials => Set<Testimonial>();
+    public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
+
 }

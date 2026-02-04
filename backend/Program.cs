@@ -6,9 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")
-););
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 // CORS
 builder.Services.AddCors(options =>
@@ -20,30 +19,59 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
 app.UseCors();
 
-// ---------- API ----------
+// ---------- Minimal API Endpoints ----------
 
+// Health check
 app.MapGet("/api", () => new { message = "Backend running" });
 
-app.MapPost("/api/status", async (AppDbContext db, StatusCheck input) =>
+// ----------------- Blogs -----------------
+app.MapGet("/api/blogs", async (AppDbContext db) =>
+    await db.Blogs.ToListAsync()
+);
+
+app.MapPost("/api/blogs", async (AppDbContext db, Blog blog) =>
 {
-    if (string.IsNullOrWhiteSpace(input.ClientName))
-        return Results.BadRequest("ClientName is required");
+    blog.Id = Guid.NewGuid();
+    blog.Timestamp = DateTime.UtcNow;
 
-    input.Id = Guid.NewGuid().ToString();
-    input.Timestamp = DateTime.UtcNow;
-
-    db.StatusChecks.Add(input);
+    db.Blogs.Add(blog);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/api/status/{input.Id}", input);
+    return Results.Created($"/api/blogs/{blog.Id}", blog);
 });
 
-app.MapGet("/api/status", async (AppDbContext db) =>
+// ----------------- Testimonials -----------------
+app.MapGet("/api/testimonials", async (AppDbContext db) =>
+    await db.Testimonials.ToListAsync()
+);
+
+app.MapPost("/api/testimonials", async (AppDbContext db, Testimonial testimonial) =>
 {
-    return await db.StatusChecks.ToListAsync();
+    testimonial.Id = Guid.NewGuid();
+    testimonial.Timestamp = DateTime.UtcNow;
+
+    db.Testimonials.Add(testimonial);
+    await db.SaveChangesAsync();
+
+    return Results.Created($"/api/testimonials/{testimonial.Id}", testimonial);
+});
+
+// ----------------- Contact Messages -----------------
+app.MapGet("/api/contact", async (AppDbContext db) =>
+    await db.ContactMessages.ToListAsync()
+);
+
+app.MapPost("/api/contact", async (AppDbContext db, ContactMessage message) =>
+{
+    message.Id = Guid.NewGuid();
+    message.Timestamp = DateTime.UtcNow;
+
+    db.ContactMessages.Add(message);
+    await db.SaveChangesAsync();
+
+    return Results.Created($"/api/contact/{message.Id}", message);
 });
 
 app.Run();
