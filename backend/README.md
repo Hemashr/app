@@ -1,23 +1,29 @@
-# Backend (C# ASP.NET Core)
+# .NET 8 Backend API
 
-This folder contains a minimal ASP.NET Core Web API that replaces the previous Python FastAPI backend.
+A minimal backend API built with **.NET 8**, **Entity Framework Core**, and **SQL Server**.
 
-Prerequisites
-- .NET SDK (recommended: .NET 8)
-- MongoDB accessible via `MONGO_URL` and `DB_NAME` environment variables
+## Features
+- Minimal API (.NET 8)
+- SQL Server with EF Core
+- CRUD endpoints
+- Input validation
+- CORS enabled
+- Clean project structure
 
-Run locally
+## Tech Stack
+- .NET 8
+- ASP.NET Core Minimal APIs
+- Entity Framework Core
+- SQL Server (Windows Authentication)
 
-Windows PowerShell example:
+## How to Run Locally
 
-```powershell
-setx MONGO_URL "mongodb://localhost:27017"
-setx DB_NAME "mydb"
+### Prerequisites
+- .NET 8 SDK
+- SQL Server (LocalDB or SQL Express)
+
+### Steps
+```bash
 dotnet restore
-dotnet run --project backend.csproj
-```
-
-Endpoints
-- `GET /api/` — health / hello world
-- `POST /api/status` — create status check ({ "clientName": "..." })
-- `GET /api/status` — list status checks
+dotnet ef database update
+dotnet run

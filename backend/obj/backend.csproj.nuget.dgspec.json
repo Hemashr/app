@@ -51,13 +51,18 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "MongoDB.Driver": {
+            "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[2.20.0, )"
+              "version": "[8.0.2, )"
             },
-            "Swashbuckle.AspNetCore": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.6.0, )"
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.2, )"
             }
           },
           "imports": [

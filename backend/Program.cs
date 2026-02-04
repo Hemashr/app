@@ -1,45 +1,49 @@
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
+using Backend.Data;
 using Backend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// SQL Server
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+););
 
-var mongoUrl = Environment.GetEnvironmentVariable("MONGO_URL") ?? "mongodb://localhost:27017";
-var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "mydb";
-var client = new MongoClient(mongoUrl);
-var database = client.GetDatabase(dbName);
-var collection = database.GetCollection<StatusCheck>("status_checks");
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseCors();
 
-app.MapGet("/api/", () => Results.Json(new { message = "Hello World" }));
+// ---------- API ----------
 
-app.MapPost("/api/status", async (Backend.DTOs.StatusCheckCreate input) =>
+app.MapGet("/api", () => new { message = "Backend running" });
+
+app.MapPost("/api/status", async (AppDbContext db, StatusCheck input) =>
 {
-    var status = new StatusCheck
-    {
-        Id = Guid.NewGuid().ToString(),
-        ClientName = input.ClientName,
-        Timestamp = DateTime.UtcNow
-    };
-    await collection.InsertOneAsync(status);
-    return Results.Created($"/api/status/{status.Id}", status);
+    if (string.IsNullOrWhiteSpace(input.ClientName))
+        return Results.BadRequest("ClientName is required");
+
+    input.Id = Guid.NewGuid().ToString();
+    input.Timestamp = DateTime.UtcNow;
+
+    db.StatusChecks.Add(input);
+    await db.SaveChangesAsync();
+
+    return Results.Created($"/api/status/{input.Id}", input);
 });
 
-app.MapGet("/api/status", async () =>
+app.MapGet("/api/status", async (AppDbContext db) =>
 {
-    var list = await collection.Find(_ => true).ToListAsync();
-    return Results.Json(list);
+    return await db.StatusChecks.ToListAsync();
 });
-
-app.Lifetime.ApplicationStopping.Register(() => { /* Mongo client will be disposed by runtime if needed */ });
 
 app.Run();
