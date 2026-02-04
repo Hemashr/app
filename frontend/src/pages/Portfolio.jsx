@@ -402,22 +402,25 @@ export default function Portfolio() {
                 Quick facts
               </div>
               <div className="mt-4 grid grid-cols-1 gap-3">
-                {heroStats.map((s) => (
-                  <div
-                    key={s.label}
-                    className="flex items-center justify-between gap-4 rounded-xl border border-border/60 bg-card/40 px-4 py-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-background/50">
-                        <s.icon className="h-4 w-4 text-muted-foreground" />
-                      </span>
-                      <div className="text-sm">
-                        <div className="font-medium">{s.label}</div>
-                        <div className="text-xs text-muted-foreground">{s.value}</div>
+                {heroStats.map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <div
+                      key={s.label}
+                      className="flex items-center justify-between gap-4 rounded-xl border border-border/60 bg-card/40 px-4 py-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-background/50">
+                          <Icon className="h-4 w-4 text-muted-foreground" />
+                        </span>
+                        <div className="text-sm">
+                          <div className="font-medium">{s.label}</div>
+                          <div className="text-xs text-muted-foreground">{s.value}</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <Separator className="my-5" />
