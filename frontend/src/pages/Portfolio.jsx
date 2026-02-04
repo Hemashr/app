@@ -100,6 +100,12 @@ export default function Portfolio() {
   const [state, setState] = useState(() => getInitialState());
   const [activeTab, setActiveTab] = useState("overview");
 
+  // Default to dark mode (works nicely for a modern developer portfolio).
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+    return () => document.documentElement.classList.remove("dark");
+  }, []);
+
   const [projects, setProjects] = useState(() => {
     const raw = localStorage.getItem("portfolio_mock_projects_v1");
     if (!raw) {
