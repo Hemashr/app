@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Portfolio from "./pages/Portfolio";
+import PortfolioPage from "./pages/PortfolioPage";
 
 function App() {
   return (
