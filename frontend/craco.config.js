@@ -15,7 +15,7 @@ const config = {
 
   // Visual edit tooling is optional; keep it OFF by default to avoid dev-build instability.
   // To enable: set ENABLE_VISUAL_EDITS=true when running the dev server.
-  enableVisualEdits: process.env.ENABLE_VISUAL_EDITS === "true" && isDevServer,
+  enableVisualEdits: enableVisualEdits,
 };
 
 // Conditionally load visual edits modules only in dev mode
